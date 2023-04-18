@@ -6,9 +6,9 @@ import java.util.Arrays;
 
 public class Kolhoz {
 
-	private static final int N_TRUCKS = 1000;
+	private static final int N_TRUCKS = 10000;
 	private static final int LOAD = 1;
-	private static final int N_RUNS = 1000;
+	private static final int N_RUNS = 10000;
 
 	public static void main(String[] args) {
 		Truck[] trucks = new Truck[N_TRUCKS];
