@@ -38,7 +38,6 @@ public class Racer extends Thread {
 			setPosition(startPosition);
 			rp.setStartPosition(startPosition + 1);
 		}
-
 	}
 	
 	public int getNum() {
