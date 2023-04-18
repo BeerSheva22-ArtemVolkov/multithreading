@@ -5,21 +5,32 @@ public class Truck extends Thread {
 	private int load; // Грузоподъемность
 	private static long elevator1; // Хранилище
 	private static long elevator2;
+	private final static Object mutex = new Object();
+//	private final static Object mutex2 = new Object();
 	private int nRuns; // Количество поездок грузовика
-
+	
+	public Truck(int load, int nRuns) {
+		this.load = load;
+		this.nRuns = nRuns;
+	}
+	
 	@Override
 	public void run() {
 		for (int i = 0; i < nRuns; i++) {
-			loadElevator1();
-			loadElevator2();
+			loadElevator1(load);
+			loadElevator2(load);
 		}
 	}
 
-	private void loadElevator1() {
-		elevator1 += load;
+	// mutex - объект класса синхронизации
+	static private void loadElevator1(int load) {
+		synchronized (mutex) {
+			elevator1 += load;
+		}
 	}
 
-	private void loadElevator2() {
+	// synchronized method - 
+	synchronized static private void loadElevator2(int load) { // synchronized static блокирует доступ для других экземпляра класса
 		elevator2 += load;
 	}
 	
