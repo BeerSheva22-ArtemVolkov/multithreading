@@ -1,6 +1,5 @@
 package telran.multithreading;
 
-import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 public class Race {
@@ -9,9 +8,9 @@ public class Race {
 
 		Racer[] racers = new Racer[racersCount];
 
-		Racer.startTime = Instant.now();
+		RaceParams rp = new RaceParams();
 		for (int i = 0; i < racersCount; i++) {
-			Racer racer = new Racer(framesCount, i + 1);
+			Racer racer = new Racer(framesCount, i + 1, rp);
 			racer.start();
 			racers[i] = racer;
 		}
@@ -24,8 +23,8 @@ public class Race {
 			}
 		}		
 		
-		for (Racer racer : Racer.getTable()) {
-			System.out.println(racer.getPosition() + "___" + racer.getNum() + "___" + (ChronoUnit.MILLIS.between(Racer.startTime, racer.getFinishTime())));
+		for (Racer racer : rp.getTable()) {
+			System.out.println(racer.getPosition() + "___" + racer.getNum() + "___" + (ChronoUnit.MILLIS.between(rp.getStartTime(), racer.getFinishTime())));
 		}
 		
 	}

@@ -1,7 +1,6 @@
 package telran.multithreading;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Racer extends Thread {
@@ -14,14 +13,12 @@ public class Racer extends Thread {
 	private Object mutex = new Object();
 	private int position;
 	private Instant finishTime;
-	
-	private static ArrayList<Racer> table;
-	public static Instant startTime;
-	private static int startPosition;
+	private RaceParams rp;
 
-	public Racer(int frames, int num) {
+	public Racer(int frames, int num, RaceParams rp) {
 		this.frames = frames;
 		this.num = num;
+		this.rp = rp;
 	}
 
 	@Override
@@ -36,8 +33,10 @@ public class Racer extends Thread {
 		}
 		finishTime = Instant.now();
 		synchronized (mutex) {
-			table.add(this);
-			setPosition(startPosition++);
+			rp.getTable().add(this);
+			int startPosition = rp.getStartPosition();
+			setPosition(startPosition);
+			rp.setStartPosition(startPosition + 1);
 		}
 
 	}
@@ -56,16 +55,6 @@ public class Racer extends Thread {
 	
 	public int getPosition() {
 		return this.position;
-	}
-	
-	static public void setDefault() {
-		startTime = null;
-		startPosition = 1;
-		table = new ArrayList<>();
-	}
-
-	public static ArrayList<Racer> getTable() {
-		return table;
 	}
 
 }
