@@ -1,15 +1,23 @@
 package telran.multithreading;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Racer extends Thread {
 
 	final int MIN_SLEEP = 2;
 	final int MAX_SLEEP = 5;
+	
 	private int frames;
 	private int num;
-	static AtomicInteger fin = new AtomicInteger(-1);
+	private Object mutex = new Object();
+	private int position;
+	private Instant finishTime;
+	
+	private static ArrayList<Racer> table;
+	public static Instant startTime;
+	private static int startPosition;
 
 	public Racer(int frames, int num) {
 		this.frames = frames;
@@ -26,9 +34,38 @@ public class Racer extends Thread {
 				// Кто-то разбудил
 			}
 		}
+		finishTime = Instant.now();
+		synchronized (mutex) {
+			table.add(this);
+			setPosition(startPosition++);
+		}
 
-		fin.compareAndSet(-1, num);
+	}
+	
+	public int getNum() {
+		return this.num;
+	}
+	
+	public Instant getFinishTime() {
+		return this.finishTime;
+	}
+	
+	public void setPosition(int position) {
+		this.position = position;
+	}
+	
+	public int getPosition() {
+		return this.position;
+	}
+	
+	static public void setDefault() {
+		startTime = null;
+		startPosition = 1;
+		table = new ArrayList<>();
+	}
 
+	public static ArrayList<Racer> getTable() {
+		return table;
 	}
 
 }
