@@ -18,5 +18,3 @@ public class TimeTestAppl {
 		System.out.println("Конец main");
 	}
 }
-
-// Задача - есть принтер (class SymbolPrinter). На каждом интерапте меняем символ и дойдя до конца начинаем сначала

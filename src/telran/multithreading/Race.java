@@ -2,7 +2,7 @@ package telran.multithreading;
 
 public class Race {
 
-	void startRace(int racersCount, int framesCount) {
+	String startRace(int racersCount, int framesCount) {
 
 		Racer[] racers = new Racer[racersCount];
 
@@ -20,5 +20,6 @@ public class Race {
 			}
 		}
 		
+		return String.valueOf(Racer.fin);
 	}
 }

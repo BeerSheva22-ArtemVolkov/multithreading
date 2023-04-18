@@ -1,6 +1,7 @@
 package telran.multithreading;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Racer extends Thread {
 
@@ -8,7 +9,7 @@ public class Racer extends Thread {
 	final int MAX_SLEEP = 5;
 	private int frames;
 	private int num;
-	static Integer fin = -1;
+	static AtomicInteger fin = new AtomicInteger(-1);
 
 	public Racer(int frames, int num) {
 		this.frames = frames;
@@ -26,12 +27,7 @@ public class Racer extends Thread {
 			}
 		}
 
-		if (fin == -1) {
-			System.out.println("Racer [" + num + "] won a race");
-			fin = num;
-		} else {
-			System.out.println("Racer [" + num + "] finished a race");
-		}
+		fin.compareAndSet(-1, num);
 
 	}
 
