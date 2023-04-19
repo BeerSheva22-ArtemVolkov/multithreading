@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 public class RaceParams {
 
+	final int MIN_SLEEP = 2;
+	final int MAX_SLEEP = 5;
+
 	private ArrayList<Racer> table = new ArrayList<>();
 	private Instant startTime = Instant.now();
 	private int startPosition = 1;

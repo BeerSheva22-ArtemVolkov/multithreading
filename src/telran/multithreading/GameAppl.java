@@ -15,7 +15,7 @@ public class GameAppl {
 
 	private static void startRun(InputOutput io) {
 		Race race = new Race();
-		int recersCount = io.readInt("Enter number of racers", "Enormuous count of racers", 2, 20);
+		int recersCount = io.readInt("Enter number of racers", "Enormuous count of racers", 2, 50);
 		int framesCount = io.readInt("Enter number of frames", "Enormuous count of frames", 10, 1000);
 		race.startRace(recersCount, framesCount);
 	}

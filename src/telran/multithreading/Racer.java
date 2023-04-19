@@ -4,12 +4,8 @@ import java.time.Instant;
 import java.util.Random;
 
 public class Racer extends Thread {
-
-	final int MIN_SLEEP = 2;
-	final int MAX_SLEEP = 5;
 	
 	private int racerNumber;
-	private Object mutex = new Object();
 	private int position;
 	private Instant finishTime;
 	private RaceParams rp;
@@ -24,18 +20,17 @@ public class Racer extends Thread {
 		for (int i = 0; i < rp.getFrames(); i++) {
 			Random random = new Random();
 			try {
-				sleep(random.nextInt(MIN_SLEEP, MAX_SLEEP + 1));
+				sleep(random.nextInt(rp.MIN_SLEEP, rp.MAX_SLEEP + 1));
 			} catch (InterruptedException e) {
 				// Кто-то разбудил
 			}
 		}
 		
-		synchronized (mutex) {
+		synchronized (rp) {
 			finishTime = Instant.now();
 			rp.getTable().add(this);
-			int startPosition = rp.getStartPosition();
-			position = startPosition;
-			rp.setStartPosition(startPosition + 1);
+			position = rp.getStartPosition();
+			rp.setStartPosition(position + 1);
 		}
 	}
 	
