@@ -8,9 +8,9 @@ public class Race {
 
 		Racer[] racers = new Racer[racersCount];
 
-		RaceParams rp = new RaceParams();
+		RaceParams rp = new RaceParams(framesCount);
 		for (int i = 0; i < racersCount; i++) {
-			Racer racer = new Racer(framesCount, i + 1, rp);
+			Racer racer = new Racer(i + 1, rp);
 			racer.start();
 			racers[i] = racer;
 		}

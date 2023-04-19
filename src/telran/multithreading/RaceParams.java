@@ -5,9 +5,14 @@ import java.util.ArrayList;
 
 public class RaceParams {
 
-	public ArrayList<Racer> table = new ArrayList<>();
-	public Instant startTime = Instant.now();
-	public int startPosition = 1;
+	private ArrayList<Racer> table = new ArrayList<>();
+	private Instant startTime = Instant.now();
+	private int startPosition = 1;
+	private int frames;
+	
+	public RaceParams(int frames) {
+		this.frames = frames;
+	}
 
 	public ArrayList<Racer> getTable() {
 		return table;
@@ -25,4 +30,7 @@ public class RaceParams {
 		this.startPosition = startPosition;
 	}
 
+	public int getFrames() {
+		return frames;
+	}
 }

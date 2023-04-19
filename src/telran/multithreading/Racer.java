@@ -8,22 +8,20 @@ public class Racer extends Thread {
 	final int MIN_SLEEP = 2;
 	final int MAX_SLEEP = 5;
 	
-	private int frames;
-	private int num;
+	private int racerNumber;
 	private Object mutex = new Object();
 	private int position;
 	private Instant finishTime;
 	private RaceParams rp;
 
-	public Racer(int frames, int num, RaceParams rp) {
-		this.frames = frames;
-		this.num = num;
+	public Racer(int racerNumber, RaceParams rp) {
+		this.racerNumber = racerNumber;
 		this.rp = rp;
 	}
 
 	@Override
 	public void run() {
-		for (int i = 0; i < frames; i++) {
+		for (int i = 0; i < rp.getFrames(); i++) {
 			Random random = new Random();
 			try {
 				sleep(random.nextInt(MIN_SLEEP, MAX_SLEEP + 1));
@@ -31,29 +29,26 @@ public class Racer extends Thread {
 				// Кто-то разбудил
 			}
 		}
-		finishTime = Instant.now();
+		
 		synchronized (mutex) {
+			finishTime = Instant.now();
 			rp.getTable().add(this);
 			int startPosition = rp.getStartPosition();
-			setPosition(startPosition);
+			position = startPosition;
 			rp.setStartPosition(startPosition + 1);
 		}
 	}
 	
 	public int getNum() {
-		return this.num;
+		return racerNumber;
 	}
 	
 	public Instant getFinishTime() {
-		return this.finishTime;
-	}
-	
-	public void setPosition(int position) {
-		this.position = position;
+		return finishTime;
 	}
 	
 	public int getPosition() {
-		return this.position;
+		return position;
 	}
 
 }
