@@ -1,31 +1,40 @@
 package telran.multithreading;
 
-import java.time.temporal.ChronoUnit;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Race {
-
-	void startRace(int racersCount, int framesCount) {
-
-		Racer[] racers = new Racer[racersCount];
-
-		RaceParams rp = new RaceParams(framesCount);
-		for (int i = 0; i < racersCount; i++) {
-			Racer racer = new Racer(i + 1, rp);
-			racer.start();
-			racers[i] = racer;
-		}
-
-		for (Racer racer : racers) {
-			try {
-				racer.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}		
-		
-		for (Racer racer : rp.getTable()) {
-			System.out.println(racer.getPosition() + "___" + racer.getNum() + "___" + (ChronoUnit.MILLIS.between(rp.getStartTime(), racer.getFinishTime())));
-		}
-		
+	private int distance;
+	private int minSleep;
+	private int maxSleep;
+	private ArrayList<Runner> resultsTable;
+	private Instant startTime;
+	public Lock lock = new ReentrantLock(true);
+	
+	
+	public ArrayList<Runner> getResultsTable() {
+		return resultsTable;
+	}
+	public Instant getStartTime() {
+		return startTime;
+	}
+	public Race(int distance, int minSleep, int maxSleep, ArrayList<Runner> resultsTable, Instant startTime) {
+		this.distance = distance;
+		this.minSleep = minSleep;
+		this.maxSleep = maxSleep;
+		this.resultsTable = resultsTable;
+		this.startTime = startTime;
+	}
+	
+	public int getDistance() {
+		return distance;
+	}
+	public int getMinSleep() {
+		return minSleep;
+	}
+	public int getMaxSleep() {
+		return maxSleep;
 	}
 }
