@@ -1,5 +1,8 @@
 package telran.multithreading;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import telran.multithreading.consumers.Receiver;
 import telran.multithreading.producers.Sender;
 
@@ -12,11 +15,14 @@ public class SenderReceiversAppl {
 		MessageBox mb = new MessageBox();
 		Sender sender = new Sender(mb, N_MESSAGES);
 		sender.start();
+		List<Receiver> receivers = new ArrayList<>();
 		for (int i = 0; i < N_RECEIVERS; i++) {
-			new Receiver(mb).start();
+			Receiver rec = new Receiver(mb);
+			rec.start();
+			receivers.add(rec);
 		}
-		Thread.sleep(100);
 		sender.join();
+		receivers.forEach(x -> x.interrupt());
 	}
 	
 }
