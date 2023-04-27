@@ -8,7 +8,7 @@ import telran.multithreading.producers.Sender;
 
 public class SenderReceiversAppl {
 
-	private static final int N_MESSAGES = 20;
+	private static final int N_MESSAGES = 100;
 	private static final int N_RECEIVERS = 10;
 
 	public static void main(String[] args) throws InterruptedException {
