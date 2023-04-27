@@ -4,29 +4,26 @@ import telran.multithreading.MessageBox;
 
 public class Sender extends Thread {
 
-	private MessageBox evenBox;
-	private MessageBox oddBox;
+	private MessageBox mb;
 	private int nMessages;
 
-	public Sender(MessageBox messageBox, MessageBox messageBox2, int nMessages) {
-		this.evenBox = messageBox;
-		this.oddBox = messageBox2;
+	public Sender(MessageBox messageBox, int nMessages) {
+		this.mb = messageBox;
 		this.nMessages = nMessages;
 	}
 
 	@Override
 	public void run() {
 		for (int i = 1; i <= nMessages; i++) {
-			put(i % 2 == 0 ? evenBox : oddBox, "message" + i);
-			try {
-				sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			put(mb, "message" + i);
 		}
 	}
 	
 	private void put(MessageBox mb, String message) {
-		mb.put(message);
+		try {
+			mb.put(message);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

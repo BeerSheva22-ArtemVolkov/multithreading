@@ -4,21 +4,23 @@ public class MessageBox {
 
 	String message;
 
-	// Consumer
-	synchronized public void put(String message) { // sync по this(messageBox)
+	// Consumer, sender
+	synchronized public void put(String message) throws InterruptedException { // sync по this(messageBox)
+		while (this.message != null) {
+			wait();
+		}
 		this.message = message;
-		this.notify(); // можно без this
+		notifyAll();
 	}
 
-	// Producer
+	// Producer, receiver
 	synchronized public String take() throws InterruptedException {
-		// не if потому что
 		while (message == null) {
 			wait();
 		}
 		String res = message;
 		message = null;
+		notifyAll();
 		return res;
-
 	}
 }
